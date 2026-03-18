@@ -1,0 +1,8 @@
+# Wiki.js 部署服务器列表
+# 格式：IP:SSH 端口：用户名：密码
+# 示例：
+# 192.168.1.100:22:root:yourpassword
+# 10.0.0.50:2222:admin:secret123
+
+# Wiki.js 部署目标 - mubai-subagent1
+38.246.245.39:22:root:Huanxin0321

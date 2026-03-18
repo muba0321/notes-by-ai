@@ -1,0 +1,8 @@
+# OpenClaw 子节点服务器列表
+# 格式：IP:SSH 端口：用户名：密码：主机名
+# 示例：
+# 192.168.1.100:22:root:yourpassword:subagent-1
+# 10.0.0.50:2222:admin:secret123:subagent-2
+
+# 子节点 1 - mubai-subagent1
+38.246.245.39:22:root:Huanxin0321:mubai-subagent1
