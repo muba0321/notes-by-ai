@@ -10,36 +10,18 @@
 
 | 主题 | 文档 | 说明 |
 |------|------|------|
-| 🤖 **Ansible** | [`ansible/`](ansible/) | Ansible 安装配置、Playbook 示例 |
-| ☸️ **K8s 集群** | [`k8s-ansible/`](k8s-ansible/) | k3s 集群部署完整指南 |
-| 🦎 **OpenClaw** | [`OpenClaw/`](OpenClaw/) | OpenClaw 部署与配置 |
-| 📖 **Wiki** | [`Wiki/`](Wiki/) | Wiki.js 相关文档 |
-| 🌐 **Nginx** | [`Nginx/`](Nginx/) | Nginx 配置与管理 |
+| 🤖 **Ansible** | [](ansible/) | Ansible 安装配置、Playbook 示例 |
+| ☸️ **K8s 集群** | [](k8s-ansible/) | k3s 集群部署完整指南 |
+| 🦎 **OpenClaw** | [](OpenClaw/) | OpenClaw 部署与配置 |
+| 📖 **Wiki** | [](Wiki/) | Wiki.js 相关文档 |
+| 🌐 **Nginx** | [](Nginx/) | Nginx 配置与管理 |
+| 📝 **配置记录** | [](config/) | 踩坑记录与解决方案 |
 
 ---
 
 ## 📁 目录结构
 
-```
-openclaw-dist/
-├── ansible/              # Ansible 自动化工具
-│   ├── index.md          # 工具首页
-│   ├── ansible-setup.md  # 安装配置手册
-│   ├── inventory.md      # 主机清单配置
-│   ├── playbooks.md      # 常用 Playbook 示例
-│   └── test-report.md    # 部署测试报告
-│
-├── k8s-ansible/          # K8s 集群部署
-│   ├── ansible-setup.md  # Ansible 配置
-│   ├── inventory.md      # 主机清单
-│   ├── playbooks.md      # 部署 Playbook
-│   └── k8s-deploy.md     # K8s 部署指南
-│
-├── OpenClaw/             # OpenClaw 相关
-├── Wiki/                 # Wiki.js 相关
-├── Nginx/                # Nginx 配置
-└── 归档/                 # 历史文档
-```
+
 
 ---
 
@@ -47,31 +29,40 @@ openclaw-dist/
 
 ### Git 同步
 
-```bash
-# 拉取最新代码
-cd /data/openclaw-dist
-git pull origin main
+Updating b89a0c9..ceae005
+Fast-forward
+ README.md                    | 211 ++++++++++----------------------
+ ansible/ansible-setup.md     | 145 ++++++++++++++++++++++
+ ansible/index.md             |  80 +++++++++++++
+ ansible/inventory.md         | 142 ++++++++++++++++++++++
+ ansible/playbooks.md         | 277 +++++++++++++++++++++++++++++++++++++++++++
+ ansible/test-report.md       | 173 +++++++++++++++++++++++++++
+ k8s-ansible/ansible-setup.md | 145 ++++++++++++++++++++++
+ k8s-ansible/inventory.md     | 142 ++++++++++++++++++++++
+ k8s-ansible/k8s-deploy.md    | 273 ++++++++++++++++++++++++++++++++++++++++++
+ k8s-ansible/playbooks.md     | 277 +++++++++++++++++++++++++++++++++++++++++++
+ 10 files changed, 1717 insertions(+), 148 deletions(-)
+ create mode 100644 ansible/ansible-setup.md
+ create mode 100644 ansible/index.md
+ create mode 100644 ansible/inventory.md
+ create mode 100644 ansible/playbooks.md
+ create mode 100644 ansible/test-report.md
+ create mode 100644 k8s-ansible/ansible-setup.md
+ create mode 100644 k8s-ansible/inventory.md
+ create mode 100644 k8s-ansible/k8s-deploy.md
+ create mode 100644 k8s-ansible/playbooks.md
+On branch main
+Your branch is up to date with 'origin/main'.
 
-# 提交更新
-git add .
-git commit -m "更新文档内容"
-git push origin main
-```
+nothing to commit, working tree clean
 
 ### 同步到 MkDocs
 
-```bash
-# 复制文档到 MkDocs
-cp -r /data/openclaw-dist/ansible/* /opt/mkdocs/docs/tools/ansible/
-cp -r /data/openclaw-dist/k8s-ansible/* /opt/mkdocs/docs/openclaw/deployment/k8s-ansible/
 
-# 构建站点
-cd /opt/mkdocs && mkdocs build
-```
 
 ### 查看文档
 
-- **本地预览：** `mkdocs serve` (在 `/opt/mkdocs/` 目录)
+- **本地预览：**  (在  目录)
 - **在线访问：** http://wiki.mubai.top
 
 ---
@@ -80,6 +71,7 @@ cd /opt/mkdocs && mkdocs build
 
 | 日期 | 更新内容 |
 |------|----------|
+| 2026-03-18 | 添加 config/lessons.md 踩坑记录 |
 | 2026-03-18 | 简化目录结构，k8s-ansible 和 ansible 移至根目录 |
 | 2026-03-18 | 添加 Ansible + K8s 完整部署文档 |
 
