@@ -7,14 +7,28 @@
 | 文件 | 用途 | 说明 |
 |------|------|------|
 | CONFIG.md | 配置说明总览 | 所有配置文件的详细文档 |
+| AGENTS.md | Agent 工作规范 | OpenClaw Agent 的行为准则 |
 | ip-subagent.txt | 子节点服务器列表 | 部署脚本使用的服务器清单 |
 | lessons.md | 踩坑记录 | 部署和运维问题总结 |
 
 ## 快速开始
 
-1. 配置服务器列表 - 编辑 ip-subagent.txt
-2. 执行部署 - ./deploy-subagent.sh
-3. 查看说明 - cat CONFIG.md
+### 配置服务器列表
+
+编辑 ip-subagent.txt：
+
+    vi ip-subagent.txt
+
+添加服务器信息（格式：IP:端口：用户名：密码：主机名）
+
+### 执行部署
+
+    cd /data/openclaw-dist/OpenClaw/子节点
+    ./deploy-subagent.sh
+
+### 查看配置说明
+
+    cat CONFIG.md
 
 ## 安全提示
 

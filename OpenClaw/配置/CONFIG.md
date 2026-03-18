@@ -1,40 +1,35 @@
 # OpenClaw 配置文件说明
 
-_所有配置文件的详细说明和使用指南_
+所有配置文件的详细说明和使用指南
 
----
-
-## 📁 配置文件列表
+## 配置文件列表
 
 | 文件 | 用途 | 格式 |
 |------|------|------|
-| [`ip-subagent.txt`](#ip-subagenttxt) | 子节点服务器列表 | 自定义 |
-| [`lessons.md`](#lessonsmd) | 踩坑记录与解决方案 | Markdown |
+| ip-subagent.txt | 子节点服务器列表 | 自定义 |
+| AGENTS.md | Agent 工作规范 | Markdown |
+| lessons.md | 踩坑记录与解决方案 | Markdown |
 
----
-
-## 📄 配置文件详解
+## 配置文件详解
 
 ### ip-subagent.txt
 
-**用途：** 存储子节点服务器连接信息，供 `deploy-subagent.sh` 脚本使用
+**用途：** 存储子节点服务器连接信息，供 deploy-subagent.sh 脚本使用
 
-**位置：** `/data/openclaw-dist/OpenClaw/配置/ip-subagent.txt`
+**位置：** /data/openclaw-dist/OpenClaw/配置/ip-subagent.txt
 
 **格式：**
-```
-IP:SSH 端口：用户名：密码：主机名
-```
+
+    IP:SSH 端口：用户名：密码：主机名
 
 **示例：**
-```bash
-# 单台服务器
-38.246.245.39:22:root:Huanxin0321:mubai-subagent1
 
-# 多台服务器（每行一个）
-192.168.1.100:22:root:password123:subagent-1
-10.0.0.50:2222:admin:secret456:subagent-2
-```
+    # 单台服务器
+    38.246.245.39:22:root:Huanxin0321:mubai-subagent1
+    
+    # 多台服务器（每行一个）
+    192.168.1.100:22:root:password123:subagent-1
+    10.0.0.50:2222:admin:secret456:subagent-2
 
 **字段说明：**
 
@@ -47,17 +42,16 @@ IP:SSH 端口：用户名：密码：主机名
 | 主机名 | 自定义主机名 | mubai-subagent1 |
 
 **使用方法：**
-```bash
-# 1. 编辑配置文件
-vi /data/openclaw-dist/OpenClaw/配置/ip-subagent.txt
 
-# 2. 添加服务器信息
-38.246.245.39:22:root:YourPassword:your-hostname
-
-# 3. 执行部署脚本
-cd /data/openclaw-dist/OpenClaw/子节点
-./deploy-subagent.sh
-```
+    # 1. 编辑配置文件
+    vi /data/openclaw-dist/OpenClaw/配置/ip-subagent.txt
+    
+    # 2. 添加服务器信息
+    38.246.245.39:22:root:YourPassword:your-hostname
+    
+    # 3. 执行部署脚本
+    cd /data/openclaw-dist/OpenClaw/子节点
+    ./deploy-subagent.sh
 
 **⚠️ 安全提示：**
 - 此文件包含明文密码，请妥善保管
@@ -66,11 +60,62 @@ cd /data/openclaw-dist/OpenClaw/子节点
 
 ---
 
+### AGENTS.md
+
+**用途：** 定义 OpenClaw Agent 的工作规范和行为准则
+
+**位置：** /data/openclaw-dist/OpenClaw/配置/AGENTS.md
+
+**内容包括：**
+
+1. **会话启动检查清单**
+   - 阅读 SOUL.md、USER.md、MEMORY.md 等
+   - 检查 HEARTBEAT.md
+
+2. **记忆系统**
+   - 5 层记忆结构（索引、项目、教训、日志、配置）
+   - 写入规则和日志格式
+
+3. **安全准则**
+   - 操作分级（Safe/Ask/Never）
+   - 安全原则
+
+4. **群聊行为规范**
+   - 回复时机
+   - 表情反应规则
+
+5. **心跳检查**
+   - 检查频率和内容
+   - Heartbeat vs Cron 对比
+
+6. **工具使用**
+   - 可用工具列表
+   - 平台格式规范
+
+**使用方法：**
+
+    # 查看 Agent 规范
+    cat /data/openclaw-dist/OpenClaw/配置/AGENTS.md
+    
+    # 修改 Agent 行为（编辑 workspace/AGENTS.md）
+    vi /root/.openclaw/workspace/AGENTS.md
+
+**相关文件：**
+
+| 文件 | 说明 |
+|------|------|
+| SOUL.md | Agent 的人格定义 |
+| USER.md | 用户信息 |
+| MEMORY.md | 核心记忆索引 |
+| TOOLS.md | 环境配置 |
+
+---
+
 ### lessons.md
 
 **用途：** 记录部署和运维过程中遇到的问题与解决方案
 
-**位置：** `/data/openclaw-dist/OpenClaw/配置/lessons.md`
+**位置：** /data/openclaw-dist/OpenClaw/配置/lessons.md
 
 **问题分级：**
 
@@ -81,61 +126,57 @@ cd /data/openclaw-dist/OpenClaw/子节点
 | 轻微 | 🟡 | 小问题、有明确解决方案 |
 
 **记录格式：**
-```markdown
-### [等级] 问题标题
 
-**时间：** YYYY-MM-DD
-**影响范围：** 影响的功能或系统
-
-#### 问题描述
-...
-
-#### 环境信息
-...
-
-#### 排查过程
-...
-
-#### 原因分析
-...
-
-#### 解决方案
-...
-
-#### 教训总结
-...
-```
+    ### [等级] 问题标题
+    
+    **时间：** YYYY-MM-DD
+    **影响范围：** 影响的功能或系统
+    
+    #### 问题描述
+    ...
+    
+    #### 环境信息
+    ...
+    
+    #### 排查过程
+    ...
+    
+    #### 原因分析
+    ...
+    
+    #### 解决方案
+    ...
+    
+    #### 教训总结
+    ...
 
 **使用方法：**
-```bash
-# 1. 编辑配置文件
-vi /data/openclaw-dist/OpenClaw/配置/lessons.md
 
-# 2. 添加新问题（按模板格式）
-
-# 3. Git 提交
-cd /data/openclaw-dist
-git add OpenClaw/配置/lessons.md
-git commit -m "docs: 记录 XXX 问题"
-git push
-```
+    # 1. 编辑配置文件
+    vi /data/openclaw-dist/OpenClaw/配置/lessons.md
+    
+    # 2. 添加新问题（按模板格式）
+    
+    # 3. Git 提交
+    cd /data/openclaw-dist
+    git add OpenClaw/配置/lessons.md
+    git commit -m "docs: 记录 XXX 问题"
+    git push
 
 ---
 
-## 🔧 配置文件管理
+## 配置文件管理
 
 ### Git 版本控制
 
-```bash
-# 查看配置文件变更
-cd /data/openclaw-dist
-git status
-
-# 提交配置变更
-git add OpenClaw/配置/
-git commit -m "config: 更新配置说明"
-git push origin main
-```
+    # 查看配置文件变更
+    cd /data/openclaw-dist
+    git status
+    
+    # 提交配置变更
+    git add OpenClaw/配置/
+    git commit -m "config: 更新配置说明"
+    git push origin main
 
 ### ⚠️ 敏感信息处理
 
@@ -145,24 +186,23 @@ git push origin main
 - 密钥文件
 
 **处理方法：**
-```bash
-# 1. 在 .gitignore 中忽略敏感文件
-echo "ip-subagent.txt" >> .gitignore
 
-# 2. 或使用示例文件
-cp ip-subagent.txt ip-subagent.txt.example
-# 编辑 example 文件，删除真实密码
-git add ip-subagent.txt.example
-git commit -m "添加配置示例"
-```
+    # 1. 在 .gitignore 中忽略敏感文件
+    echo "ip-subagent.txt" >> .gitignore
+    
+    # 2. 或使用示例文件
+    cp ip-subagent.txt ip-subagent.txt.example
+    # 编辑 example 文件，删除真实密码
+    git add ip-subagent.txt.example
+    git commit -m "添加配置示例"
 
 ---
 
-## 📋 配置检查清单
+## 配置检查清单
 
 部署前检查：
 
-- [ ] `ip-subagent.txt` 中的 IP 地址正确
+- [ ] ip-subagent.txt 中的 IP 地址正确
 - [ ] SSH 端口可访问
 - [ ] 用户名密码正确
 - [ ] 主机名不重复
@@ -170,13 +210,13 @@ git commit -m "添加配置示例"
 
 ---
 
-## 🔗 相关文档
+## 相关文档
 
-- [子节点部署](../子节点/openclaw 子节点部署.md)
-- [服务端部署](../服务端/openclaw 服务端部署 v2.md)
-- [踩坑记录](./lessons.md)
+- 子节点部署 - ../子节点/openclaw 子节点部署.md
+- 服务端部署 - ../服务端/openclaw 服务端部署 v2.md
+- 踩坑记录 - ./lessons.md
 
 ---
 
-**最后更新：** 2026-03-18  
-**维护者：** OpenClaw Team
+最后更新：2026-03-18
+维护者：OpenClaw Team
