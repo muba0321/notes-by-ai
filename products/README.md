@@ -12,8 +12,55 @@ _子节点 1 生成的产品设计、需求分析与调研报告_
 |------|-----|
 | **用途** | 产品设计、需求分析、市场调研 |
 | **生成代理** | 子节点 1 (38.246.245.39) |
+| **归档节点** | 主节点 (server) |
 | **创建时间** | 2026-03-23 |
-| **同步方式** | Git 推送 → GitHub → MkDocs 发布 |
+| **同步方式** | 主节点 Git 推送 → GitHub → MkDocs 发布 |
+
+---
+
+## 🔄 工作流程
+
+```
+┌─────────────┐
+│  子节点 1    │ 生成产品文档
+│ (产品设计)  │ ↓
+└─────────────┘ SSH 同步
+       ↓
+┌─────────────┐
+│   主节点     │ 审核 + Git 提交
+│  (server)   │ ↓
+└─────────────┘ Git push
+       ↓
+┌─────────────┐
+│  GitHub     │ 仓库存储
+│ (notes-by-ai)│ ↓
+└─────────────┘ MkDocs 构建
+       ↓
+┌─────────────┐
+│  wiki.mubai.top │ 在线文档
+└─────────────┘
+```
+
+### 步骤说明
+
+1. **子节点 1 生成文档**
+   - 使用 self-improving-agent 记录学习
+   - 生成 PRD、调研报告、功能设计等
+
+2. **同步到主节点**
+   ```bash
+   # 从主节点拉取子节点 1 的文档
+   ssh root@38.246.245.39 "tar czf - /root/.openclaw/workspace/products/" | \
+   tar xzf - -C /data/openclaw-dist/
+   ```
+
+3. **主节点审核 + 提交**
+   - 检查文档质量
+   - Git add/commit/push
+
+4. **发布到在线文档**
+   - GitHub 自动触发或手动构建
+   - MkDocs 生成静态站点
 
 ---
 
@@ -154,27 +201,18 @@ features/
 
 ---
 
-## 🔄 工作流程
-
-```
-1. 子节点 1 生成文档草稿
-       ↓
-2. 保存到对应目录（状态：draft）
-       ↓
-3. Git commit + push → GitHub
-       ↓
-4. 用户评审（状态：review）
-       ↓
-5. 批准后（状态：approved）
-       ↓
-6. 执行/开发
-       ↓
-7. 定期归档（状态：archived）
-```
-
----
-
 ## 🛠️ 常用命令
+
+### 从子节点 1 同步文档到主节点
+
+```bash
+# 方式 1：使用 rsync
+rsync -avz root@38.246.245.39:/root/.openclaw/workspace/products/ /data/openclaw-dist/products/
+
+# 方式 2：使用 scp + tar
+ssh root@38.246.245.39 "tar czf - /root/.openclaw/workspace/products/*" | \
+tar xzf - -C /data/openclaw-dist/products/
+```
 
 ### 创建新 PRD
 
@@ -204,6 +242,22 @@ git commit -m "归档旧产品：old-product"
 git push
 ```
 
+### Git 同步
+
+```bash
+cd /data/openclaw-dist
+
+# 查看变更
+git status
+
+# 提交
+git add .
+git commit -m "更新产品文档"
+
+# 推送
+git push origin main
+```
+
 ---
 
 ## 📊 文档索引
@@ -230,12 +284,23 @@ git push
 
 ## 🔗 相关资源
 
-- **主节点：** 38.246.245.39 (server)
-- **子节点 1：** 38.246.245.39 (产品设计专用)
+| 节点 | 角色 | 地址 |
+|------|------|------|
+| **主节点 (server)** | 归档 + Git 推送 | 10.0.118.4 |
+| **子节点 1** | 产品设计生成 | 38.246.245.39 |
+
 - **GitHub:** https://github.com/muba0321/notes-by-ai
 - **在线文档：** http://wiki.mubai.top
 
 ---
 
-**维护者：** OpenClaw 子节点 1  
+## 📝 同步记录
+
+| 日期 | 操作 | 文档 | 状态 |
+|------|------|------|------|
+| 2026-03-23 | 目录创建 | products/ | ✅ 完成 |
+
+---
+
+**维护者：** OpenClaw 主节点 (server)  
 **最后更新：** 2026-03-23
