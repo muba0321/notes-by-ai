@@ -12,7 +12,7 @@
 |------|------|------|
 | 🤖 **Ansible** | [`ansible/`](ansible/) | Ansible 安装配置、Playbook 示例 |
 | ☸️ **K8s 集群** | [`k8s-ansible/`](k8s-ansible/) | k3s 集群部署完整指南 |
-| 🦎 **OpenClaw** | [`OpenClaw/`](OpenClaw/) | OpenClaw 部署与配置 |
+| 🦎 **OpenClaw** | [`OpenClaw/`](OpenClaw/) | OpenClaw 部署、配置与 Skills |
 | 📖 **Wiki** | [`Wiki/`](Wiki/) | Wiki.js 相关文档 |
 | 🌐 **Nginx** | [`Nginx/`](Nginx/) | Nginx 配置与管理 |
 
@@ -38,11 +38,14 @@ openclaw-dist/
 ├── OpenClaw/             # OpenClaw 相关
 │   ├── 服务端/           # 主节点部署
 │   ├── 子节点/           # 子节点部署
-│   └── 配置/             # 配置文件与说明 ⭐
-│       ├── CONFIG.md     # 配置说明总览
-│       ├── README.md     # 配置目录索引
-│       ├── ip-subagent.txt
-│       └── lessons.md    # 踩坑记录
+│   ├── 配置/             # 配置文件与说明 ⭐
+│   │   ├── CONFIG.md     # 配置说明总览
+│   │   ├── README.md     # 配置目录索引
+│   │   ├── ip-subagent.txt
+│   │   └── lessons.md    # 踩坑记录
+│   └── Skills/           # 技能文档 ⭐ 新增
+│       ├── skill-vetter.md
+│       └── self-improving-agent.md
 │
 ├── Wiki/                 # Wiki.js 相关
 ├── Nginx/                # Nginx 配置
@@ -102,6 +105,7 @@ cd /opt/mkdocs && mkdocs build
 
 | 日期 | 更新内容 |
 |------|----------|
+| 2026-03-23 | 添加 Skills 文档（skill-vetter, self-improving-agent） |
 | 2026-03-18 | 整理配置文件到 OpenClaw/配置/ 目录 |
 | 2026-03-18 | 添加 config/lessons.md 踩坑记录 |
 | 2026-03-18 | 简化目录结构，k8s-ansible 和 ansible 移至根目录 |
