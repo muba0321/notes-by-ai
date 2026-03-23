@@ -10,6 +10,7 @@
 
 | 主题 | 文档 | 说明 |
 |------|------|------|
+| 📊 **Products** | [`products/`](products/) | 产品设计、需求分析、调研报告 ⭐ |
 | 🤖 **Ansible** | [`ansible/`](ansible/) | Ansible 安装配置、Playbook 示例 |
 | ☸️ **K8s 集群** | [`k8s-ansible/`](k8s-ansible/) | k3s 集群部署完整指南 |
 | 🦎 **OpenClaw** | [`OpenClaw/`](OpenClaw/) | OpenClaw 部署、配置与 Skills |
@@ -22,6 +23,18 @@
 
 ```
 openclaw-dist/
+├── products/             # 产品设计文档 ⭐ 新增
+│   ├── README.md         # 目录说明 + 文档索引
+│   ├── PRD/              # 产品需求文档
+│   │   └── template.md   # PRD 模板
+│   ├── research/         # 调研分析
+│   │   ├── market/       # 市场调研
+│   │   ├── competitors/  # 竞品分析
+│   │   └── users/        # 用户研究
+│   ├── features/         # 功能设计
+│   ├── reviews/          # 评审记录
+│   └── archive/          # 已归档产品
+│
 ├── ansible/              # Ansible 自动化工具
 │   ├── index.md          # 工具首页
 │   ├── ansible-setup.md  # 安装配置手册
@@ -105,6 +118,7 @@ cd /opt/mkdocs && mkdocs build
 
 | 日期 | 更新内容 |
 |------|----------|
+| 2026-03-23 | 新增 `products/` 目录（产品设计文档） |
 | 2026-03-23 | 添加 Skills 文档（skill-vetter, self-improving-agent） |
 | 2026-03-18 | 整理配置文件到 OpenClaw/配置/ 目录 |
 | 2026-03-18 | 添加 config/lessons.md 踩坑记录 |
