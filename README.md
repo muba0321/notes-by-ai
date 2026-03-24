@@ -10,12 +10,14 @@
 
 | 主题 | 文档 | 说明 |
 |------|------|------|
-| 📊 **Products** | [`products/`](products/) | 产品设计、需求分析、调研报告 ⭐ |
+| 🔄 **CI/CD** | [`CI-CD/`](CI-CD/) | Jenkins + GitHub + Ansible + K8s 持续集成/部署 ⭐ |
+| 📊 **Monitoring** | [`Monitoring/`](Monitoring/) | Prometheus + Grafana 监控平台 ⭐ |
 | 🤖 **Ansible** | [`ansible/`](ansible/) | Ansible 安装配置、Playbook 示例 |
 | ☸️ **K8s 集群** | [`k8s-ansible/`](k8s-ansible/) | k3s 集群部署完整指南 |
 | 🦎 **OpenClaw** | [`OpenClaw/`](OpenClaw/) | OpenClaw 部署、配置与 Skills |
 | 📖 **Wiki** | [`Wiki/`](Wiki/) | Wiki.js 相关文档 |
 | 🌐 **Nginx** | [`Nginx/`](Nginx/) | Nginx 配置与管理 |
+| 📊 **Products** | [`products/`](products/) | 产品设计文档（子节点 1 生成） |
 
 ---
 
@@ -23,46 +25,58 @@
 
 ```
 openclaw-dist/
-├── products/             # 产品设计文档 ⭐ 新增
-│   ├── README.md         # 目录说明 + 文档索引
-│   ├── PRD/              # 产品需求文档
-│   │   └── template.md   # PRD 模板
-│   ├── research/         # 调研分析
-│   │   ├── market/       # 市场调研
-│   │   ├── competitors/  # 竞品分析
-│   │   └── users/        # 用户研究
-│   ├── features/         # 功能设计
-│   ├── reviews/          # 评审记录
-│   └── archive/          # 已归档产品
+├── CI-CD/                  # CI/CD 平台文档 ⭐
+│   ├── README.md           # 目录说明
+│   ├── cicd-platform-design.md      # 产品流程设计（5 个场景）
+│   ├── cicd-deployment-guide.md     # 完整部署指南
+│   ├── cicd-scripts-index.md        # 脚本索引
+│   ├── Jenkins/            # Jenkins 文档
+│   │   └── jenkins-deployment-record.md
+│   └── scripts/            # 安装脚本
+│       └── install-jenkins.sh
 │
-├── ansible/              # Ansible 自动化工具
-│   ├── index.md          # 工具首页
-│   ├── ansible-setup.md  # 安装配置手册
-│   ├── inventory.md      # 主机清单配置
-│   ├── playbooks.md      # 常用 Playbook 示例
-│   └── test-report.md    # 部署测试报告
+├── Monitoring/             # 监控平台文档 ⭐
+│   ├── README.md           # 目录说明
+│   ├── Prometheus/         # Prometheus 文档
+│   │   ├── prometheus-grafana-deployment.md
+│   │   ├── cicd-monitoring-metrics.md
+│   │   └── linux-monitoring-metrics-full.md
+│   └── Grafana/            # Grafana 文档
+│       ├── grafana-dingtalk-alert-setup.md
+│       └── nginx-proxy-config.md
 │
-├── k8s-ansible/          # K8s 集群部署
-│   ├── ansible-setup.md  # Ansible 配置
-│   ├── inventory.md      # 主机清单
-│   ├── playbooks.md      # 部署 Playbook
-│   └── k8s-deploy.md     # K8s 部署指南
-│
-├── OpenClaw/             # OpenClaw 相关
-│   ├── 服务端/           # 主节点部署
-│   ├── 子节点/           # 子节点部署
-│   ├── 配置/             # 配置文件与说明 ⭐
-│   │   ├── CONFIG.md     # 配置说明总览
-│   │   ├── README.md     # 配置目录索引
-│   │   ├── ip-subagent.txt
-│   │   └── lessons.md    # 踩坑记录
-│   └── Skills/           # 技能文档 ⭐ 新增
+├── OpenClaw/               # OpenClaw 相关
+│   ├── 服务端/             # 主节点部署
+│   ├── 子节点/             # 子节点部署
+│   ├── 配置/               # 配置文件与说明
+│   └── Skills/             # 技能文档
 │       ├── skill-vetter.md
 │       └── self-improving-agent.md
 │
-├── Wiki/                 # Wiki.js 相关
-├── Nginx/                # Nginx 配置
-├── 归档/                 # 历史文档
+├── products/               # 产品设计文档
+│   ├── README.md
+│   ├── PRD/                # 产品需求文档
+│   ├── research/           # 调研分析
+│   ├── features/           # 功能设计
+│   ├── reviews/            # 评审记录
+│   └── archive/            # 已归档
+│
+├── ansible/                # Ansible 自动化工具
+│   ├── index.md
+│   ├── ansible-setup.md
+│   ├── inventory.md
+│   ├── playbooks.md
+│   └── test-report.md
+│
+├── k8s-ansible/            # K8s 集群部署
+│   ├── ansible-setup.md
+│   ├── inventory.md
+│   ├── playbooks.md
+│   └── k8s-deploy.md
+│
+├── Wiki/                   # Wiki.js 相关
+├── Nginx/                  # Nginx 配置
+├── 归档/                   # 历史文档
 └── README.md
 ```
 
@@ -83,15 +97,37 @@ git commit -m "更新文档内容"
 git push origin main
 ```
 
+### CI/CD 部署
+
+```bash
+# 部署 Jenkins
+cd CI-CD/scripts
+./install-jenkins.sh
+
+# 访问 Jenkins
+http://jenkins.mubai.top
+```
+
+### 监控平台
+
+```bash
+# 访问 Grafana
+http://grafana.mubai.top
+# 默认账号：admin / Grafana12345
+
+# 访问 Prometheus
+http://promethus.mubai.top
+```
+
 ### OpenClaw 部署
 
 ```bash
 # 部署服务端
-cd /data/openclaw-dist/OpenClaw/服务端
+cd OpenClaw/服务端
 ./deploy_openclaw_server.sh
 
 # 部署子节点
-cd /data/openclaw-dist/OpenClaw/子节点
+cd OpenClaw/子节点
 # 1. 编辑 ../配置/ip-subagent.txt
 # 2. ./deploy-subagent.sh
 ```
@@ -102,6 +138,8 @@ cd /data/openclaw-dist/OpenClaw/子节点
 # 复制文档到 MkDocs
 cp -r /data/openclaw-dist/ansible/* /opt/mkdocs/docs/tools/ansible/
 cp -r /data/openclaw-dist/k8s-ansible/* /opt/mkdocs/docs/openclaw/deployment/k8s-ansible/
+cp -r /data/openclaw-dist/CI-CD/* /opt/mkdocs/docs/ci-cd/
+cp -r /data/openclaw-dist/Monitoring/* /opt/mkdocs/docs/monitoring/
 
 # 构建站点
 cd /opt/mkdocs && mkdocs build
@@ -118,12 +156,14 @@ cd /opt/mkdocs && mkdocs build
 
 | 日期 | 更新内容 |
 |------|----------|
-| 2026-03-23 | 新增 `products/` 目录（产品设计文档） |
+| 2026-03-23 | **重构目录结构** - 按工具分类 (CI-CD/Monitoring/OpenClaw) |
+| 2026-03-23 | 完善监控体系（125+ 系统指标、Grafana 面板、钉钉告警） |
+| 2026-03-23 | 部署 Prometheus + Grafana 监控平台 |
+| 2026-03-23 | 部署 Jenkins CI/CD 平台 |
+| 2026-03-23 | 配置 Nginx 反向代理（3 个域名） |
 | 2026-03-23 | 添加 Skills 文档（skill-vetter, self-improving-agent） |
+| 2026-03-23 | 新增 `products/` 目录（产品设计文档） |
 | 2026-03-18 | 整理配置文件到 OpenClaw/配置/ 目录 |
-| 2026-03-18 | 添加 config/lessons.md 踩坑记录 |
-| 2026-03-18 | 简化目录结构，k8s-ansible 和 ansible 移至根目录 |
-| 2026-03-18 | 添加 Ansible + K8s 完整部署文档 |
 
 ---
 
