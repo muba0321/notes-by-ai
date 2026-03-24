@@ -1,9 +1,11 @@
 # K8s 集群部署方案
 
 **服务名称：** Kubernetes 集群  
-**文档版本：** v1.0  
+**文档版本：** v1.1  
 **制定时间：** 2026-03-24  
-**优先级：** P0 (核心基础设施)
+**更新时间：** 2026-03-24  
+**优先级：** P0 (核心基础设施)  
+**部署模式：** 3 节点（1 Master + 2 Worker）
 
 ---
 
@@ -51,6 +53,21 @@
 | Ingress | Nginx Ingress Controller | 流量入口 |
 | 包管理 | Helm v3.x | 应用包管理 |
 | 监控 | Prometheus + Grafana | 监控告警 |
+
+### 1.4 部署规模
+
+```
+【3 节点架构】
+- master1: Control Plane (不运行工作负载)
+- node1: Worker (运行应用 Pod)
+- node2: Worker (运行应用 Pod)
+- node3: 预留 (暂不加入集群，用于 MHA 或其他服务)
+
+【可用资源】
+- 总 CPU: 8 核 (2 Worker × 4 核)
+- 总内存：12G (2 Worker × 6G 可用)
+- 可运行 Pod: 约 24 个 (按每 Pod 0.5CPU, 512M 计算)
+```
 
 ### 1.3 依赖关系
 
@@ -120,12 +137,12 @@
 
 ### 2.2 部署节点
 
-| 节点 | 主机名 | IP:端口 | 角色 | 部署组件 |
-|------|--------|---------|------|----------|
-| master1 | master1 | 124.132.136.17:9005 | Control Plane | API Server, ETCD, Controller Manager, Scheduler, Kubelet |
-| node1 | node1 | 124.132.136.17:9191 | Worker | Kubelet, Kube-proxy, containerd |
-| node2 | node2 | 124.132.136.17:9053 | Worker | Kubelet, Kube-proxy, containerd |
-| node3 | node3 | 124.132.136.17:9010 | Worker | Kubelet, Kube-proxy, containerd |
+| 节点 | 主机名 | IP:端口 | 角色 | 部署组件 | 状态 |
+|------|--------|---------|------|----------|------|
+| master1 | master1 | 124.132.136.17:9005 | Control Plane | API Server, ETCD, Controller Manager, Scheduler, Kubelet | 部署 |
+| node1 | node1 | 124.132.136.17:9191 | Worker | Kubelet, Kube-proxy, containerd | 部署 |
+| node2 | node2 | 124.132.136.17:9053 | Worker | Kubelet, Kube-proxy, containerd | 部署 |
+| node3 | node3 | 124.132.136.17:9010 | - | - | **预留** (暂不部署) |
 
 ### 2.3 端口规划
 
@@ -168,22 +185,26 @@ CoreDNS: 10.96.0.10
 | master1 | 4 核 | 8G | 100G SSD | 1Gbps | Control Plane |
 | node1 | 4 核 | 8G | 100G SSD | 1Gbps | Worker，运行应用 |
 | node2 | 4 核 | 8G | 100G SSD | 1Gbps | Worker，运行应用 |
-| node3 | 4 核 | 8G | 100G SSD | 1Gbps | Worker，运行应用 |
 
 ### 3.2 资源评估
 
 ```
 【评估依据】
-- 预估 Pod 数量：50-100 个
+- 预估 Pod 数量：30-50 个
 - 单 Pod 平均资源：0.5 CPU, 512M 内存
 - 系统预留：每节点 1 CPU, 2G 内存
 - 数据存储需求：镜像 + 容器日志约 20G/节点
 - 日志增长速率：约 1G/天/节点
 
 【容量规划】
-- 总可用 CPU: 12 核 (3 Worker × 4 核)
-- 总可用内存：18G (3 Worker × 6G 可用)
-- 可运行 Pod: 约 36 个 (按每 Pod 0.5CPU, 512M 计算)
+- 总可用 CPU: 8 核 (2 Worker × 4 核)
+- 总可用内存：12G (2 Worker × 6G 可用)
+- 可运行 Pod: 约 24 个 (按每 Pod 0.5CPU, 512M 计算)
+
+【node3 预留用途】
+- MHA MySQL Slave
+- 或未来 K8s 扩容
+- 或其他独立服务
 ```
 
 ### 3.3 扩缩容策略
@@ -445,10 +466,12 @@ chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/manifests/calico.yaml
 
 # ========== Worker 节点 ==========
-# 7. 加入集群（在每个 Worker 执行）
+# 7. 加入集群（在 node1 和 node2 执行）
 kubeadm join 124.132.136.17:9005 \
   --token <token> \
   --discovery-token-ca-cert-hash sha256:<hash>
+
+# node3 暂不加入集群（预留用于 MHA 或其他服务）
 
 # ========== 验证 ==========
 kubectl get nodes
@@ -563,6 +586,7 @@ kubectl get svc nginx
 
 | 版本 | 日期 | 变更内容 | 变更人 |
 |------|------|----------|--------|
+| v1.1 | 2026-03-24 | 调整为 3 节点部署，node3 预留 | OpenClaw Agent |
 | v1.0 | 2026-03-24 | 初始版本 | OpenClaw Agent |
 
 ---
@@ -574,21 +598,23 @@ kubectl get svc nginx
 | 复核项 | 状态 | 意见 |
 |--------|------|------|
 | 技术可行性 | ✓ | K8s 部署方案成熟可行 |
-| 资源评估 | ✓ | 4 节点资源配置合理 |
-| 高可用方案 | ✓ | 多 Worker 节点，Pod 多副本 |
+| 资源评估 | ✓ | 3 节点资源配置合理，node3 预留用于 MHA |
+| 高可用方案 | ✓ | 2 Worker 节点，Pod 多副本 |
 | 备份方案 | ✓ | ETCD 备份 + 全集群备份 |
 | 安全配置 | ✓ | RBAC + NetworkPolicy |
 
 **复核结论：** ✓ 通过
 
 **复核意见：**
-方案完整，技术选型合理。建议：
-1. 生产环境建议升级 3 节点 Control Plane
-2. 定期执行恢复测试
-3. 配置 HPA 自动扩缩容
+方案完整，技术选型合理。3 节点部署适合当前需求：
+1. 2 Worker 节点可运行约 24 个 Pod，满足初期需求
+2. node3 预留用于 MHA MySQL Slave，避免混部风险
+3. 后续可根据负载情况扩容 node3 加入 K8s
+4. 定期执行恢复测试
+5. 配置 HPA 自动扩缩容
 
 **复核人：** 子节点 1 Agent  
-**复核时间：** 待填写
+**复核时间：** 2026-03-24 08:15 UTC
 
 ---
 
