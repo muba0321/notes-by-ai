@@ -17,6 +17,7 @@
 | 🦎 **OpenClaw** | [`OpenClaw/`](OpenClaw/) | OpenClaw 部署、配置与 Skills |
 | 📖 **Wiki** | [`Wiki/`](Wiki/) | Wiki.js 相关文档 |
 | 🌐 **Nginx** | [`Nginx/`](Nginx/) | Nginx 配置与管理 |
+| 📒 **Feishu** | [`Feishu/`](Feishu/) | 飞书机器人配置、多 Agent 协作与权限管理 ⭐ |
 | 📊 **Products** | [`products/`](products/) | 产品设计文档（子节点 1 生成） |
 
 ---
@@ -76,6 +77,9 @@ openclaw-dist/
 │
 ├── Wiki/                   # Wiki.js 相关
 ├── Nginx/                  # Nginx 配置
+├── Feishu/                 # 飞书机器人配置与多 Agent 协作 ⭐
+│   ├── README.md           # 飞书集成完整指南
+│   └── 权限配置清单.md     # 权限申请清单
 ├── 归档/                   # 历史文档
 └── README.md
 ```
@@ -156,6 +160,7 @@ cd /opt/mkdocs && mkdocs build
 
 | 日期 | 更新内容 |
 |------|----------|
+| 2026-03-26 | **新增 Feishu/** - 飞书机器人配置、多 Agent 协作与权限管理 ⭐ |
 | 2026-03-23 | **重构目录结构** - 按工具分类 (CI-CD/Monitoring/OpenClaw) |
 | 2026-03-23 | 完善监控体系（125+ 系统指标、Grafana 面板、钉钉告警） |
 | 2026-03-23 | 部署 Prometheus + Grafana 监控平台 |
