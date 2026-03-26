@@ -19,6 +19,7 @@
 | 🌐 **Nginx** | [`Nginx/`](Nginx/) | Nginx 配置与管理 |
 | 📒 **Feishu** | [`Feishu/`](Feishu/) | 飞书机器人配置、多 Agent 协作与权限管理 ⭐ |
 | ☁️ **Cloud-Platform** | [`Cloud-Platform/`](Cloud-Platform/) | 云平台学习指南与实战文档 ⭐ |
+| ☸️ **Kubernetes** | [`Kubernetes/`](Kubernetes/) | K8s 零基础入门到实战文档 ⭐ |
 | 📊 **Products** | [`products/`](products/) | 产品设计文档（子节点 1 生成） |
 
 ---
