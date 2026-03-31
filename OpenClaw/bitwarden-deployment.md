@@ -3,14 +3,16 @@
 ## 部署概览
 
 - **部署日期：** 2026-03-31
-- **服务器：** mubai-subagent2 (154.193.217.121)
-- **状态：** ✅ 运行中
-- **访问地址：** http://154.193.217.121
+- **数据服务器：** mubai-subagent2 (154.193.217.121)
+- **代理服务器：** mubai-subagent1 (38.246.245.39)
+- **状态：** ✅ 运行中 (HTTPS)
+- **访问地址：** https://pw.mubai.top
 
 ## 技术栈
 
 - **核心服务：** Vaultwarden (Bitwarden 轻量实现)
-- **反向代理：** Nginx
+- **反向代理：** Nginx (子节点 1)
+- **SSL 证书：** Let's Encrypt (自动续期)
 - **部署方式：** Docker Compose
 
 ## 配置详情
@@ -37,6 +39,14 @@
 - 注册：关闭（需邀请）
 - Admin Token: BitwardenAdmin2026!Secure
 - WebSocket: 启用
+- 默认语言：zh-CN（中文）
+- **HTTPS：** ✅ 已启用 (Let's Encrypt)
+- **域名：** https://pw.mubai.top
+
+### 初始账户
+- **邮箱：** admin@local.com
+- **密码：** huanxin0321
+- **组织：** 我的密码库
 
 ## 运维命令
 
