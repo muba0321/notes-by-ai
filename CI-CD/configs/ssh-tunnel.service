@@ -1,0 +1,13 @@
+[Unit]
+Description=SSH Tunnel to Bastion
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/sshpass -p 'Huanxin0321' ssh -o StrictHostKeyChecking=no -o ServerAliveInterval=30 -o ServerAliveCountMax=3 -N -L 127.0.0.1:18080:localhost:8080 -L 127.0.0.1:19090:localhost:9090 -L 127.0.0.1:13000:localhost:3000 root@222.211.80.222
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
