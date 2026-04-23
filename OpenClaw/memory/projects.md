@@ -30,7 +30,7 @@ _所有已完成/运行中的项目详细配置_
 ├── Infrastructure 标签 (7 台) - 基础设施服务器
 │   ├── ser280729144889 (堡垒机)
 │   ├── ser493590849885 (主节点)
-│   ├── mubai-subagent2 (子节点 2)
+│   ├── ser154-12-54-207 (子节点 2)
 │   └── master1/node1/node2/node3 (K8s 集群)
 └── Application 标签 (5 个) - 应用服务
     ├── netbox-cmdb
@@ -115,7 +115,7 @@ _所有已完成/运行中的项目详细配置_
 - 国内用户：直接访问 `http://222.211.80.222:8080/9090/3000`
 - 海外用户：通过子节点 2 SSH 隧道代理（域名访问）
 - Grafana 域名：http://grafana.mubai.top
-- **子节点 2 直连:** http://154.193.217.121:3000
+- **子节点 2 直连:** http://154.12.54.207:3000
 
 **记录时间：** 2026-03-23
 **更新时间：** 2026-03-25 (监控系统重构，子节点 2 为监控中心)
@@ -135,7 +135,7 @@ _所有已完成/运行中的项目详细配置_
 
 **访问方式：**
 - 域名：http://portal.mubai.top
-- 直连：http://154.193.217.121:8081
+- 直连：http://154.12.54.207:8081
 
 **默认账号：** admin / admin
 
@@ -174,12 +174,12 @@ _所有已完成/运行中的项目详细配置_
 - 文档路径规范：与主节点一致 (`/data/openclaw-dist/`)
 
 **连接信息：**
-- 主机名：mubai-subagent2
-- IP 地址：154.193.217.121
+- 主机名：ser154-12-54-207
+- IP 地址：154.12.54.207
 - SSH 端口：22
 - SSH 用户：root
 - Gateway 端口：18789
-- 访问地址：http://154.193.217.121:18789
+- 访问地址：http://154.12.54.207:18789
 
 **凭证：**
 - SSH 密码：`***（见本地TOOLS.md）`
@@ -224,7 +224,7 @@ _所有已完成/运行中的项目详细配置_
 
 ## 🔧 Ansible 集群管理
 
-**控制端：** 子节点 2 (154.193.217.121)
+**控制端：** 子节点 2 (154.12.54.207)
 **用途：** 批量管理局域网 4 台机器（K8s 集群）
 
 ### 被管机器清单
@@ -304,10 +304,10 @@ _所有已完成/运行中的项目详细配置_
 **同步命令（主节点执行）：**
 ```bash
 # 从子节点 2 拉取文档
-rsync -avz root@154.193.217.121:/root/.openclaw/workspace/products/ /data/openclaw-dist/products/
+rsync -avz root@154.12.54.207:/root/.openclaw/workspace/products/ /data/openclaw-dist/products/
 
 # 或者使用 scp + tar
-ssh root@154.193.217.121 "tar czf - /root/.openclaw/workspace/products/*" | \
+ssh root@154.12.54.207 "tar czf - /root/.openclaw/workspace/products/*" | \
 tar xzf - -C /data/openclaw-dist/products/
 ```
 
@@ -370,7 +370,7 @@ products/
 
 你 (Webchat)
    ↓
-子节点 2 (154.193.217.121)
+子节点 2 (154.12.54.207)
    ↓
 ┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
 │ product-designs  │────▶│   coder-api      │────▶│  notes-by-ai     │
@@ -425,7 +425,7 @@ products/
 
 - ✅ PRD 已创建：`/data/openclaw-dist/products/product-designs/test-api/PRD.md`
 - ✅ 代码已生成：`/data/openclaw-dist/code/test-api/`
-- ✅ 容器已部署：http://154.193.217.121:8001
+- ✅ 容器已部署：http://154.12.54.207:8001
 - ✅ 文档已记录：`CI-CD/变更单/工作流测试报告 -20260325.md`
 
 ---
