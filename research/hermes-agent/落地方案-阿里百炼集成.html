@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Agent 落地方案 — 阿里百炼集成</title>
+<style>
+:root{--bg:#0a0a0f;--surface:#13131a;--border:#2a2a3a;--accent:#c8a2c8;--accent2:#7b68ee;--text:#e0e0e8;--text2:#9999aa;--green:#4ade80;--red:#f87171;--yellow:#fbbf24;--blue:#60a5fa}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);line-height:1.8}
+.hero{background:linear-gradient(135deg,#1a0a2e,#0a0a0f 50%,#0a1a2e);padding:80px 24px 60px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 50%,rgba(200,162,200,0.06),transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(123,104,238,0.06),transparent 60%);animation:pulse 8s ease-in-out infinite alternate}
+@keyframes pulse{0%{opacity:.5}100%{opacity:1}}
+.hero-content{position:relative;z-index:1;max-width:800px;margin:0 auto}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;letter-spacing:-1px}
+.hero .subtitle{font-size:1.1rem;color:var(--text2);margin-bottom:20px}
+.hero .badge{display:inline-block;padding:5px 14px;border-radius:999px;border:1px solid var(--accent2);color:var(--accent2);font-size:.82rem;font-weight:600;margin:4px}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
+section{padding:48px 0;border-bottom:1px solid var(--border)}
+section:last-child{border-bottom:none}
+h2{font-size:1.5rem;font-weight:700;margin-bottom:24px;color:#fff;display:flex;align-items:center;gap:10px}
+h2 .icon{font-size:1.3rem}
+h3{font-size:1.1rem;font-weight:600;margin:20px 0 10px;color:#fff}
+p{color:var(--text2);margin-bottom:12px}
+strong{color:var(--text)}
+.grid{display:grid;gap:16px}.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;transition:border-color .2s}
+.card:hover{border-color:var(--accent2)}
+.card h4{color:#fff;font-size:1rem;margin-bottom:8px}.card p{font-size:.9rem;margin:0}
+table{width:100%;border-collapse:collapse;font-size:.9rem;margin:16px 0}
+th{text-align:left;padding:12px 14px;background:var(--surface);border-bottom:2px solid var(--accent2);color:#fff;font-weight:600}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:hover td{background:rgba(123,104,238,.04)}
+.arch-diagram{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px 24px;text-align:center;margin:20px 0}
+.arch-diagram pre{color:var(--accent2);font-size:.8rem;line-height:1.5;overflow-x:auto;text-align:left;display:inline-block}
+.use-case{display:flex;gap:16px;padding:16px;background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:12px}
+.use-case .uc-icon{font-size:1.6rem;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(123,104,238,.1);border-radius:10px}
+.use-case h4{color:#fff;margin-bottom:4px}.use-case p{font-size:.88rem;margin:0}
+.highlight-box{background:linear-gradient(135deg,rgba(123,104,238,.08),rgba(200,162,200,.08));border:1px solid var(--border);border-left:4px solid var(--accent2);border-radius:8px;padding:20px 24px;margin:16px 0}
+.highlight-box p{color:var(--text);margin:0}
+code{background:rgba(123,104,238,.1);padding:2px 8px;border-radius:4px;font-size:.88em;color:var(--accent);font-family:'SF Mono','Fira Code',monospace}
+footer{text-align:center;padding:40px 24px;color:var(--text2);font-size:.8rem;border-top:1px solid var(--border)}
+footer a{color:var(--accent2);text-decoration:none}
+a{color:var(--accent2)}
+</style>
+</head>
+<body>
+<div class="hero"><div class="hero-content">
+<h1>📚 Hermes Agent 落地方案</h1>
+<p class="subtitle">阿里百炼模型集成 · 记忆文件继承 · 场景规划 · 部署架构</p>
+<div>
+<span class="badge">Hermes Agent</span><span class="badge">阿里百炼 DashScope</span><span class="badge">OpenClaw 兼容</span><span class="badge">v1.0</span>
+</div>
+</div></div>
+<div class="container">
+
+<section><h2><span class="icon">📖</span> 1. Hermes Agent 项目介绍</h2>
+<div class="highlight-box"><p><strong>Hermes Agent</strong> 是 Nous Research 开发的自主学习型 AI Agent 框架，核心差异化在于<strong>内置自改进学习循环</strong>。</p></div>
+<div class="grid grid-2">
+<div class="card"><h4>🔄 自改进学习循环</h4><p>经验→技能→优化→持久化→跨会话搜索</p></div>
+<div class="card"><h4>🌐 18 种消息平台</h4><p>Telegram/Discord/飞书/钉钉/企微/微信/QQ 等</p></div>
+<div class="card"><h4>🤖 200+ 模型支持</h4><p>/model 命令即时切换，无厂商锁定</p></div>
+<div class="card"><h4>☁️ 6 种终端后端</h4><p>local/docker/ssh/singularity/modal/daytona</p></div>
+</div>
+</section>
+
+<section><h2><span class="icon">🔌</span> 2. 阿里百炼模型接入方案</h2>
+<h3>2.1 当前已有模型（主节点 openclaw.json）</h3>
+<table>
+<thead><tr><th>模型 ID</th><th>类型</th><th>上下文</th><th>最大输出</th><th>用途定位</th></tr></thead>
+<tbody>
+<tr><td><strong>qwen3.6-plus</strong></td><td>通用</td><td>1,000,000</td><td>65,536</td><td>主力通用模型</td></tr>
+<tr><td><strong>qwen3.5-plus</strong></td><td>通用</td><td>1,000,000</td><td>65,536</td><td>备用/角色扮演</td></tr>
+<tr><td><strong>qwen3-max-2026-01-23</strong></td><td>通用</td><td>262,144</td><td>65,536</td><td>复杂推理</td></tr>
+<tr><td><strong>qwen3-coder-plus</strong></td><td>代码</td><td>1,000,000</td><td>65,536</td><td>代码生成（主力）</td></tr>
+<tr><td><strong>qwen3-coder-next</strong></td><td>代码</td><td>262,144</td><td>65,536</td><td>代码生成（下一代）</td></tr>
+<tr><td><strong>MiniMax-M2.5</strong></td><td>通用</td><td>196,608</td><td>32,768</td><td>补充模型</td></tr>
+<tr><td><strong>glm-5 / glm-4.7</strong></td><td>通用</td><td>202,752</td><td>16,384</td><td>补充模型</td></tr>
+<tr><td><strong>kimi-k2.5</strong></td><td>多模态</td><td>262,144</td><td>32,768</td><td>图文理解</td></tr>
+</tbody>
+</table>
+<p><strong>API 端点：</strong><code>https://coding.dashscope.aliyuncs.com/v1</code></p>
+
+<h3>2.2 Hermes Agent 配置方法</h3>
+<div class="arch-diagram" style="text-align:left"><pre>
+# ~/.hermes/config.yaml
+providers:
+  bailian:
+    api_key: sk-sp-7e6f845b069f486d9b18aa8366579f1e
+    base_url: https://coding.dashscope.aliyuncs.com/v1
+    api_mode: chat_completions
+    models:
+      - qwen3.6-plus
+      - qwen3-coder-plus
+      - qwen3-coder-next
+defaults:
+  model: bailian/qwen3.6-plus</pre></div>
+
+<h3>2.3 模型使用策略</h3>
+<table>
+<thead><tr><th>场景</th><th>推荐模型</th><th>理由</th></tr></thead>
+<tbody>
+<tr><td>日常对话</td><td>qwen3.6-plus</td><td>上下文大(1M)、成本低、响应快</td></tr>
+<tr><td>代码生成</td><td>qwen3-coder-plus</td><td>代码专项优化、上下文1M</td></tr>
+<tr><td>复杂任务</td><td>qwen3-coder-next</td><td>下一代能力更强</td></tr>
+<tr><td>角色扮演</td><td>qwen3.5-plus</td><td>成本低、适合长对话</td></tr>
+<tr><td>深度推理</td><td>qwen3-max-2026-01-23</td><td>推理能力强</td></tr>
+</tbody>
+</table>
+</section>
+
+<section><h2><span class="icon">🧠</span> 3. 记忆文件继承方案</h2>
+<h3>3.1 OpenClaw → Hermes 迁移映射</h3>
+<table>
+<thead><tr><th>OpenClaw 文件</th><th>Hermes 对应</th><th>迁移方式</th></tr></thead>
+<tbody>
+<tr><td>SOUL.md</td><td>人格配置（personality）</td><td>hermes claw migrate</td></tr>
+<tr><td>MEMORY.md</td><td>~/.hermes/memories/core.md</td><td>hermes claw migrate</td></tr>
+<tr><td>USER.md</td><td>用户画像（user profile）</td><td>hermes claw migrate</td></tr>
+<tr><td>AGENTS.md</td><td>上下文文件（context files）</td><td>复制到 ~/.hermes/</td></tr>
+<tr><td>skills/</td><td>~/.hermes/skills/openclaw-imports/</td><td>hermes claw migrate</td></tr>
+<tr><td>openclaw.json</td><td>config.yaml</td><td>部分映射</td></tr>
+</tbody>
+</table>
+
+<h3>3.2 迁移命令</h3>
+<div class="arch-diagram" style="text-align:left"><pre>
+hermes claw migrate          # 一键完整迁移
+hermes claw migrate --dry-run # 预览（安全推荐）
+hermes claw migrate --preset user-data # 仅用户数据（不含密钥）</pre></div>
+
+<h3>3.3 迁移后记忆增强</h3>
+<div class="grid grid-2">
+<div class="card"><h4>🤖 自动记忆创建</h4><p>完成任务后自动生成记忆条目</p></div>
+<div class="card"><h4>📈 技能自改进</h4><p>使用中不断优化技能效果</p></div>
+<div class="card"><h4>🔍 FTS5 全文搜索</h4><p>跨会话搜索历史对话和决策</p></div>
+<div class="card"><h4>👤 用户画像建模</h4><p>自动学习用户偏好和工作习惯</p></div>
+</div>
+</section>
+
+<section><h2><span class="icon">🎯</span> 4. 场景落地规划</h2>
+<div class="use-case"><div class="uc-icon">💬</div><div><h4>场景 1：智能客服 + 产品推荐</h4><p><strong>模型：</strong>qwen3.6-plus | <strong>部署：</strong>$5 VPS + 飞书 Gateway | <strong>步骤：</strong>部署→配模型→导知识库→接飞书→配审批</p></div></div>
+<div class="use-case"><div class="uc-icon">💻</div><div><h4>场景 2：代码生成与评审</h4><p><strong>模型：</strong>qwen3-coder-plus | <strong>部署：</strong>子节点1 + Docker 后端 | <strong>步骤：</strong>安装→配模型→导code-review→配GitHub→接飞书</p></div></div>
+<div class="use-case"><div class="uc-icon">🖥️</div><div><h4>场景 3：运维自动化</h4><p><strong>模型：</strong>qwen3.6-plus | <strong>部署：</strong>堡垒机 + SSH 后端 | <strong>步骤：</strong>安装→配监控→创建Cron→接Grafana</p></div></div>
+<div class="use-case"><div class="uc-icon">📋</div><div><h4>场景 4：产品设计与调研</h4><p><strong>模型：</strong>qwen3.6-plus | <strong>部署：</strong>子节点1 workspace-product | <strong>步骤：</strong>导Skills→配模型→接飞书</p></div></div>
+</section>
+
+<section><h2><span class="icon">🏗️</span> 5. 部署架构与运维</h2>
+<div class="arch-diagram"><pre>
+┌──────────────────────────────────────────────┐
+│  用户层：飞书/钉钉/企微/Telegram/CLI          │
+├──────────────────────────────────────────────┤
+│  Hermes Gateway (子节点1: 154.193.217.121)   │
+├──────────────────────────────────────────────┤
+│  Agent Core → 阿里百炼 + 47工具 + 记忆管理    │
+├──────────────────────────────────────────────┤
+│  终端后端：Docker / SSH / local               │
+└──────────────────────────────────────────────┘</pre></div>
+
+<h3>运维清单</h3>
+<table>
+<thead><tr><th>项目</th><th>频率</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>模型用量监控</td><td>每日</td><td>检查百炼控制台 token 消耗</td></tr>
+<tr><td>技能审查</td><td>每周</td><td>审查自改进技能质量</td></tr>
+<tr><td>记忆备份</td><td>每周</td><td>备份 ~/.hermes/ 目录</td></tr>
+<tr><td>版本更新</td><td>每月</td><td>hermes update</td></tr>
+</tbody>
+</table>
+</section>
+
+</div>
+<footer>
+<p>文档版本：v1.0 | 生成时间：2026-04-24 | 作者：咨询助手</p>
+<p><a href="https://github.com/NousResearch/hermes-agent">Hermes Agent GitHub</a> · <a href="https://hermes-agent.nousresearch.com/docs/">官方文档</a></p>
+</footer>
+</body>
+</html>
